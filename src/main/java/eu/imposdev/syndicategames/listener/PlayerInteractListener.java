@@ -1,10 +1,14 @@
 package eu.imposdev.syndicategames.listener;
 
 import eu.imposdev.syndicategames.SyndicateGames;
+import eu.imposdev.syndicategames.api.LanguageManager;
 import eu.imposdev.syndicategames.gamehandler.GameState;
 import eu.imposdev.syndicategames.util.Utils;
+import net.core.api.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +27,7 @@ public class PlayerInteractListener implements Listener {
     private static final ArrayList<Location> blockPlacedLoc = new ArrayList<>();
 
     @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent e) {
+    public void onPlayerInteractAtChest(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         if (e.getAction() == null) return;
         if (e.getClickedBlock() == null) return;
@@ -50,6 +54,29 @@ public class PlayerInteractListener implements Listener {
                     chests.put(e.getClickedBlock().getLocation(), chestInv);
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteractWithItem(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if (event.getAction() == null) return;
+        if (event.getItem() == null) return;
+        if (event.getItem().equals(Utils.BACK_TO_LOBBY)) {
+            event.setCancelled(true);
+            player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 2, 2);
+            player.sendMessage(Utils.PREFIX + LanguageManager.getMessage(Utils.LOCALE, "sendingToLobby"));
+            player.kickPlayer(null);
+        }
+        if (event.getItem().equals(Utils.FORCE_MAP)) {
+            Inventory inventory = Bukkit.createInventory(null, 9 * 3, LanguageManager.getMessage(Utils.LOCALE, "forceMap").replaceAll("&", "§"));
+            for (int i = 0; i < SyndicateGames.getInstance().getMaps().size(); i++) {
+                ItemStack itemStack = new ItemBuilder(Material.MAP).setName("§3" + SyndicateGames.getInstance().getMaps().get(i)).setAmount(i).build();
+                inventory.addItem(itemStack);
+            }
+            event.setCancelled(true);
+            player.openInventory(inventory);
+            player.playSound(player.getLocation(), Sound.CHEST_OPEN, 0.5f, 0.5f);
         }
     }
 

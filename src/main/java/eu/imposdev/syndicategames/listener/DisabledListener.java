@@ -23,7 +23,7 @@ public class DisabledListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        if (!player.getGameMode().equals(GameMode.CREATIVE)) {
+        if (player.getGameMode() != GameMode.CREATIVE) {
             event.setCancelled(true);
         }
     }
@@ -31,7 +31,7 @@ public class DisabledListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        if (!player.getGameMode().equals(GameMode.CREATIVE)) {
+        if (player.getGameMode() != GameMode.CREATIVE) {
             event.setCancelled(true);
         }
     }
@@ -44,7 +44,7 @@ public class DisabledListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if (!SyndicateGames.getInstance().getGameState().equals(GameState.INGAME)) {
+        if (!SyndicateGames.getInstance().getGameState().equals(GameState.INGAME) && player.getGameMode() != GameMode.CREATIVE) {
             event.setCancelled(true);
         }
         if (event.getAction() == Action.PHYSICAL) {
@@ -65,6 +65,10 @@ public class DisabledListener implements Listener {
     public void onPickUp(PlayerPickupItemEvent event) {
         if (SyndicateGames.getInstance().getGameState().equals(GameState.INGAME)) {
             if (!Utils.LIVING_PLAYERS.contains(event.getPlayer())) {
+                event.setCancelled(true);
+            }
+        } else {
+            if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
                 event.setCancelled(true);
             }
         }

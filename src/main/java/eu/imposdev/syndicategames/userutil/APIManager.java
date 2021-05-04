@@ -41,18 +41,27 @@ public class APIManager {
     }
 
     public boolean register() {
-        log(0, "[]==========[API-Manager]==========[]");
+        log(0, "--------------------------------------------------------------------");
+        log(0, "\n \n" +
+                "  ___  ______ _____     ___  ___                                  \n" +
+                " / _ \\ | ___ \\_   _|    |  \\/  |                                  \n" +
+                "/ /_\\ \\| |_/ / | |______| .  . | __ _ _ __   __ _  __ _  ___ _ __ \n" +
+                "|  _  ||  __/  | |______| |\\/| |/ _` | '_ \\ / _` |/ _` |/ _ \\ '__|\n" +
+                "| | | || |    _| |_     | |  | | (_| | | | | (_| | (_| |  __/ |   \n" +
+                "\\_| |_/\\_|    \\___/     \\_|  |_/\\__,_|_| |_|\\__,_|\\__, |\\___|_|   \n" +
+                "                                                   __/ |          \n" +
+                "                                                  |___/           \n");
         log(0, "Connecting to API-Server...");
         ValidationType vt = isValid();
         if (vt == ValidationType.VALID) {
             log(1, "API-Key valid!");
-            log(0, "[]==========[API-Manager]==========[]");
+            log(1, "--------------------------------------------------------------------");
             return true;
         } else {
             log(1, "API-Key is NOT valid!");
             log(1, "Failed as a result of " + vt.toString());
             log(1, "Don't change the tracking key!");
-            log(0, "[]==========[API-Manager]==========[]");
+            log(1, "--------------------------------------------------------------------");
 
             /*Bukkit.getScheduler().cancelTasks(plugin);
             Bukkit.getPluginManager().disablePlugin(plugin);*/

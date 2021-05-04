@@ -3,3 +3,13 @@ Setup:
   setupLobby: "&7You successful set the lobby spawn."
   setupSpawn: "&7You successful set the spawn %spawn% on map %map%"
   setupSpawnFailed: "&7This is not a number you tried to enter."
+Items:
+  backToLobby: "&7Back to &3Lobby"
+  forceMap: "&3ForceMap"
+Lobby:
+  sendingToLobby: "&7Sending you to a &3Lobby &7Server&8..."
+  mapChanged: "&7You changed the map to &3%map%&7!"
+  countdown: "&7The game is starting in &3%seconds% &7%unit%."
+  teleporting: "&3Teleporting &7players&8..."
+  preCountDown: "&7Starting in &3%seconds% &7%unit%."
+  start: "&7The &3SyndicateGames &7started!"
