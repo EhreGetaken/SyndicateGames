@@ -1,0 +1,7 @@
+name: SyndicateGames
+version: 1.0
+author: ukeoTV
+main: eu.imposdev.syndicategames.SyndicateGames
+
+commands:
+  setup:

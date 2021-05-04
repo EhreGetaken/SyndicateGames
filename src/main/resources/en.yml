@@ -1,0 +1,5 @@
+Setup:
+  setupUsage: "&7Usage: /setup setLobby, setSpawn (1 / 2) (Map number 1, 2, etc.)"
+  setupLobby: "&7You successful set the lobby spawn."
+  setupSpawn: "&7You successful set the spawn %spawn% on map %map%"
+  setupSpawnFailed: "&7This is not a number you tried to enter."
