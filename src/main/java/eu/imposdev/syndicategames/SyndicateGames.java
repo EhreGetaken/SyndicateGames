@@ -8,11 +8,11 @@ import eu.imposdev.syndicategames.commands.Setup_Command;
 import eu.imposdev.syndicategames.gamehandler.GameManager;
 import eu.imposdev.syndicategames.gamehandler.GameState;
 import eu.imposdev.syndicategames.listener.*;
+import eu.imposdev.syndicategames.scoreboard.ScoreboardAPI;
 import eu.imposdev.syndicategames.userutil.APIManager;
 import eu.imposdev.syndicategames.userutil.UpdateChecker;
 import eu.imposdev.syndicategames.util.Utils;
 import net.core.api.ItemBuilder;
-import net.core.api.LanguageAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.plugin.PluginManager;
@@ -30,6 +30,7 @@ public class SyndicateGames extends JavaPlugin {
     private UpdateChecker updateChecker;
     private GameState gameState;
     private GameManager gameManager;
+    private ScoreboardAPI scoreboardAPI;
 
     private String version = "";
 
@@ -43,6 +44,7 @@ public class SyndicateGames extends JavaPlugin {
 
         ArrayList<String> mapz = new ArrayList<>();
         mapz.add("Forrest");
+        getLogger().info("Registered default maps.");
 
         getConfig().options().copyDefaults(true);
         getConfig().options().header("SyndicateGames by ukeo. Copyright (c) 2021 Espen da Silva. All rights reserved. DO NOT CHANGE THE TRACKING KEY!");
@@ -52,19 +54,28 @@ public class SyndicateGames extends JavaPlugin {
         getConfig().addDefault("Settings.LobbyCountdown", 10);
         getConfig().addDefault("Settings.PreCountdown", 5);
         getConfig().addDefault("Settings.RebootCountdown", 10);
+        getConfig().addDefault("Settings.KillsToWin", 2);
+        getConfig().addDefault("Settings.PreCounterAfterKill", true);
+        getConfig().addDefault("Settings.RebootAtEnd", false);
         getConfig().addDefault("Maps", mapz);
         saveConfig();
 
+        getLogger().info("Set config's default values.");
+
         maps = (ArrayList<String>) getConfig().getStringList("Maps");
+        getLogger().info("Initialised maps.");
 
         if (!new APIManager(getConfig().getString("Settings.Tracking-Key"), "https://api.imposdev.eu/verify.php", this).register());
 
         gameState = GameState.LOBBY;
+        getLogger().info("Set gamestate to LOBBY");
         locationAPI = new LocationAPI();
         chestAPI = new ChestAPI();
         chestLoot = new ChestLoot();
         updateChecker = new UpdateChecker();
         gameManager = new GameManager();
+        scoreboardAPI = new ScoreboardAPI();
+        getLogger().info("Init 6 internal API's");
 
         updateChecker.check();
         if (updateChecker.isAvailable()) {
@@ -78,18 +89,29 @@ public class SyndicateGames extends JavaPlugin {
         Utils.LOBBY_COUNTDOWN = getConfig().getInt("Settings.LobbyCountdown") + 1;
         Utils.PRE_COUNTDOWN = getConfig().getInt("Settings.PreCountdown") + 1;
         Utils.ENDING_COUNTDOWN = getConfig().getInt("Settings.RebootCountdown") + 1;
+        Utils.PRE_COUNTDOWN_AFTER_KILL = getConfig().getBoolean("Settings.PreCounterAfterKill");
+        Utils.KILLS_TO_WIN = getConfig().getInt("Settings.KillsToWin");
+        Utils.REBOOT = getConfig().getBoolean("Settings.RebootAtEnd");
+
+        getLogger().info("Set util variables.");
 
         LanguageManager.loadMessages();
+        getLogger().info("Init language files");
 
         chestAPI.createDefaultChestLoot();
         chestAPI.readNormalLoot();
         chestAPI.readPremiumLoot();
 
+        getLogger().info("Set default chest loot and init.");
+
         registerListener();
         registerCommands();
         registerItems();
+        getRandomMap();
 
         gameManager.launchLobby();
+        getLogger().info("Launched lobby.");
+        getLogger().info("Plugin booted and all systems init.");
 
     }
 
@@ -105,15 +127,20 @@ public class SyndicateGames extends JavaPlugin {
         pluginManager.registerEvents(new PlayerQuitListener(), instance);
         pluginManager.registerEvents(new DisabledListener(), instance);
         pluginManager.registerEvents(new InventoryClickListener(), instance);
+        pluginManager.registerEvents(new PlayerMoveListener(), instance);
+        pluginManager.registerEvents(new PlayerDeathListener(), instance);
+        getLogger().info("Init listener.");
     }
 
     private void registerCommands() {
         getCommand("setup").setExecutor(new Setup_Command());
+        getLogger().info("Init commands.");
     }
 
     private void registerItems() {
         Utils.BACK_TO_LOBBY = new ItemBuilder(Material.NETHER_STAR).setName(LanguageManager.getMessage(Utils.LOCALE, "backToLobby").replaceAll("&", "§")).build();
         Utils.FORCE_MAP = new ItemBuilder(Material.CHEST).setName(LanguageManager.getMessage(Utils.LOCALE, "forceMap").replaceAll("&", "§")).build();
+        getLogger().info("Init itemStacks.");
     }
 
     private void getRandomMap() {
@@ -163,5 +190,9 @@ public class SyndicateGames extends JavaPlugin {
 
     public ArrayList<String> getMaps() {
         return maps;
+    }
+
+    public ScoreboardAPI getScoreboardAPI() {
+        return scoreboardAPI;
     }
 }

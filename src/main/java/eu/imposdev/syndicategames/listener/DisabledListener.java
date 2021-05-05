@@ -56,7 +56,7 @@ public class DisabledListener implements Listener {
 
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
-        if (!SyndicateGames.getInstance().getGameState().equals(GameState.INGAME)) {
+        if (!SyndicateGames.getInstance().getGameState().equals(GameState.INGAME) && !Utils.IS_PRE_STATE) {
             event.setCancelled(true);
         }
     }

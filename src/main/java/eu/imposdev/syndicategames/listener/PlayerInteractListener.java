@@ -23,8 +23,8 @@ import java.util.List;
 
 public class PlayerInteractListener implements Listener {
 
-    private static final HashMap<Location, Inventory> chests = new HashMap();
-    private static final ArrayList<Location> blockPlacedLoc = new ArrayList<>();
+    public static final HashMap<Location, Inventory> chests = new HashMap();
+    public static final ArrayList<Location> blockPlacedLoc = new ArrayList<>();
 
     @EventHandler
     public void onPlayerInteractAtChest(PlayerInteractEvent e) {

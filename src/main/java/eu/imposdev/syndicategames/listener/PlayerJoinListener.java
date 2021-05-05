@@ -24,11 +24,13 @@ public class PlayerJoinListener implements Listener {
         if (SyndicateGames.getInstance().getGameState().equals(GameState.LOBBY)) {
             player.setHealthScale(20D);
             player.setHealth(20D);
-            player.setFoodLevel(20);
+            player.setFoodLevel(40);
             player.setGameMode(GameMode.ADVENTURE);
             Utils.setupInventory(player);
             player.teleport(SyndicateGames.getInstance().getLocationAPI().getLocation("Lobby"));
             player.playSound(player.getLocation(), Sound.LEVEL_UP, 0.5f, 0.5f);
+            Utils.PLAYER_KILLS.put(player, 0);
+            Utils.PLAYER_DEATHS.put(player, 0);
         } else {
             player.setHealthScale(20D);
             player.setHealth(20D);
@@ -44,6 +46,8 @@ public class PlayerJoinListener implements Listener {
             });
             player.teleport(Utils.LIVING_PLAYERS.get(0).getLocation());
         }
+
+        SyndicateGames.getInstance().getScoreboardAPI().sendScoreboard(player);
 
     }
 

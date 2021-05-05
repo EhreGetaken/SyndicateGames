@@ -28,6 +28,7 @@ public class ChestAPI {
         list.add("CHAINMAIL_HELMET,1;1");
         list.add("CHAINMAIL_BOOTS,2;1");
         list.add("LEATHER_HELMET,2;1");
+        list.add("AIR,23;1");
         list.add("LEATHER_CHESTPLATE,2;1");
         list.add("LEATHER_BOOTS,2;1");
         list.add("AIR,20;1");
@@ -37,14 +38,15 @@ public class ChestAPI {
         list2.add("IRON_SWORD,10;1");
         list2.add("WEB,2;6");
         list2.add("COOKED_BEEF,3;6");
-        list.add("IRON_LEGGINGS,1;1");
-        list.add("CHAINMAIL_HELMET,1;1");
-        list.add("CHAINMAIL_BOOTS,2;1");
+        list2.add("IRON_LEGGINGS,1;1");
+        list2.add("CHAINMAIL_HELMET,1;1");
+        list2.add("CHAINMAIL_BOOTS,2;1");
         list2.add("AIR,23;1");
-        list.add("LEATHER_HELMET,2;1");
-        list.add("IRON_CHESTPLATE,1;1");
-        list.add("LEATHER_BOOTS,2;1");
-        list.add("IRON_BOOTS,2;1");
+        list2.add("LEATHER_HELMET,2;1");
+        list2.add("IRON_CHESTPLATE,1;1");
+        list2.add("LEATHER_BOOTS,2;1");
+        list2.add("AIR,23;1");
+        list2.add("IRON_BOOTS,2;1");
 
         cfg.addDefault("Loot.normal", list);
         cfg.addDefault("Loot.premium", list2);

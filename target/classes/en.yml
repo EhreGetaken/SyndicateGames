@@ -13,3 +13,19 @@ Lobby:
   teleporting: "&3Teleporting &7players&8..."
   preCountDown: "&7Starting in &3%seconds% &7%unit%."
   start: "&7The &3SyndicateGames &7started!"
+InGame:
+  kill: "&c%player% &7got killed by &a%killer%&7!"
+  win: "&a%player% &7won the &3SyndicateGames&7!"
+Scoreboard:
+  title: "&f&lSERVER"
+  line1: " "
+  line2: "&8- &3Kills"
+  line3: "&a%kills%"
+  line4: "  "
+  line5: "&8- &3Deaths"
+  line6: "&c%deaths%"
+  line7: "   "
+  line8: "&8- &3Map"
+  line9: "&7%map%"
+Ending:
+  serverReboot: "&7This server will &creboot &7in a few seconds."

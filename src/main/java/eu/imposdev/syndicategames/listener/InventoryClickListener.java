@@ -4,6 +4,7 @@ import eu.imposdev.syndicategames.SyndicateGames;
 import eu.imposdev.syndicategames.api.LanguageManager;
 import eu.imposdev.syndicategames.util.Utils;
 import net.core.api.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -28,10 +29,9 @@ public class InventoryClickListener implements Listener {
                     if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(itemStack.getItemMeta().getDisplayName())) {
                         Utils.MAP_NAME = SyndicateGames.getInstance().getMaps().get(i);
                         Utils.MAP_INT = i;
-                        /*
-                        TODO:
-                        Add scoreboard
-                         */
+                        Bukkit.getOnlinePlayers().forEach(all -> {
+                            SyndicateGames.getInstance().getScoreboardAPI().sendScoreboard(all);
+                        });
                         player.closeInventory();
                         player.sendMessage(Utils.PREFIX + LanguageManager.getMessage(Utils.LOCALE, "mapChanged").replaceAll("%map%", Utils.MAP_NAME).replaceAll("&", "§"));
                         player.playSound(player.getLocation(), Sound.VILLAGER_YES, 0.75f, 0.75f);
