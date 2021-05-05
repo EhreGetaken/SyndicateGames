@@ -92,6 +92,13 @@ public class PlayerDeathListener implements Listener {
             deaths++;
             Utils.PLAYER_DEATHS.put(player, deaths);
 
+            player.getInventory().clear();
+            killer.getInventory().clear();
+            player.getInventory().setArmorContents(null);
+            killer.getInventory().setArmorContents(null);
+            player.setFoodLevel(40);
+            killer.setFoodLevel(40);
+
             Utils.LIVING_PLAYERS.forEach(all -> {
                 SyndicateGames.getInstance().getScoreboardAPI().sendScoreboard(all);
             });

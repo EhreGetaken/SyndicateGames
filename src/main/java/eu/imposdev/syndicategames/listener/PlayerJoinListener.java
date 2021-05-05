@@ -1,6 +1,7 @@
 package eu.imposdev.syndicategames.listener;
 
 import eu.imposdev.syndicategames.SyndicateGames;
+import eu.imposdev.syndicategames.api.LanguageManager;
 import eu.imposdev.syndicategames.gamehandler.GameState;
 import eu.imposdev.syndicategames.util.Utils;
 import org.bukkit.Bukkit;
@@ -31,7 +32,10 @@ public class PlayerJoinListener implements Listener {
             player.playSound(player.getLocation(), Sound.LEVEL_UP, 0.5f, 0.5f);
             Utils.PLAYER_KILLS.put(player, 0);
             Utils.PLAYER_DEATHS.put(player, 0);
+            Bukkit.broadcastMessage(Utils.PREFIX + LanguageManager.getMessage(Utils.LOCALE, "join").replaceAll("&", "§").replace("%player%", player.getName()));
         } else {
+            Utils.PLAYER_KILLS.put(player, 0);
+            Utils.PLAYER_DEATHS.put(player, 0);
             player.setHealthScale(20D);
             player.setHealth(20D);
             player.setFoodLevel(20);

@@ -7,6 +7,9 @@ Items:
   backToLobby: "&7Back to &3Lobby"
   forceMap: "&3ForceMap"
 Lobby:
+  join: "&a%player% &7joined the game&8."
+  quit: "&c%player% &7left the game&8."
+  countdownCancel: "&7The countdown got &ccanceled&8."
   sendingToLobby: "&7Sending you to a &3Lobby &7Server&8..."
   mapChanged: "&7You changed the map to &3%map%&7!"
   countdown: "&7The game is starting in &3%seconds% &7%unit%."
@@ -16,6 +19,7 @@ Lobby:
 InGame:
   kill: "&c%player% &7got killed by &a%killer%&7!"
   win: "&a%player% &7won the &3SyndicateGames&7!"
+  quitIngame: "&c%player% &7left the game. &a%winner% &7won the game&8!"
 Scoreboard:
   title: "&f&lSERVER"
   line1: " "

@@ -35,11 +35,15 @@ public class PlayerInteractListener implements Listener {
                 (e.getClickedBlock().getType() == Material.CHEST)) {
             if (!blockPlacedLoc.contains(e.getClickedBlock().getLocation())) {
                 if (!chests.containsKey(e.getClickedBlock().getLocation())) {
-                    Chest chest = (Chest) e.getClickedBlock().getState();
-                    Inventory chestInv = chest.getInventory();
-                    List<ItemStack> loots = SyndicateGames.getInstance().getChestLoot().getLoot();
-                    SyndicateGames.getInstance().getChestLoot().fillChest(chest);
-                    chests.put(e.getClickedBlock().getLocation(), chestInv);
+                    if (!Utils.IS_PRE_STATE) {
+                        Chest chest = (Chest) e.getClickedBlock().getState();
+                        Inventory chestInv = chest.getInventory();
+                        List<ItemStack> loots = SyndicateGames.getInstance().getChestLoot().getLoot();
+                        SyndicateGames.getInstance().getChestLoot().fillChest(chest);
+                        chests.put(e.getClickedBlock().getLocation(), chestInv);
+                    } else {
+                        e.setCancelled(true);
+                    }
                 }
             }
         }
@@ -47,11 +51,15 @@ public class PlayerInteractListener implements Listener {
                 (e.getClickedBlock().getType() == Material.TRAPPED_CHEST)) {
             if (!blockPlacedLoc.contains(e.getClickedBlock().getLocation())) {
                 if (!chests.containsKey(e.getClickedBlock().getLocation())) {
-                    Chest chest = (Chest) e.getClickedBlock().getState();
-                    Inventory chestInv = chest.getInventory();
-                    List<ItemStack> loots = SyndicateGames.getInstance().getChestLoot().getPremiumLoot();
-                    SyndicateGames.getInstance().getChestLoot().fillPremiumChest(chest);
-                    chests.put(e.getClickedBlock().getLocation(), chestInv);
+                    if (!Utils.IS_PRE_STATE) {
+                        Chest chest = (Chest) e.getClickedBlock().getState();
+                        Inventory chestInv = chest.getInventory();
+                        List<ItemStack> loots = SyndicateGames.getInstance().getChestLoot().getPremiumLoot();
+                        SyndicateGames.getInstance().getChestLoot().fillPremiumChest(chest);
+                        chests.put(e.getClickedBlock().getLocation(), chestInv);
+                    } else {
+                        e.setCancelled(true);
+                    }
                 }
             }
         }

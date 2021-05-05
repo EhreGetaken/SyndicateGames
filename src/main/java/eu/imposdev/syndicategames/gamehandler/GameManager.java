@@ -4,6 +4,7 @@ import eu.imposdev.syndicategames.SyndicateGames;
 import eu.imposdev.syndicategames.api.LanguageManager;
 import eu.imposdev.syndicategames.util.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 
 public class GameManager {
@@ -84,6 +85,7 @@ public class GameManager {
                             all.setExp(0f);
                             all.getInventory().setArmorContents(null);
                             all.playSound(all.getLocation(), Sound.ENDERMAN_TELEPORT, 2, 2);
+                            all.setGameMode(GameMode.SURVIVAL);
                             Utils.PLAYER_DEATHS.put(all, 0);
                             Utils.PLAYER_KILLS.put(all, 0);
                             SyndicateGames.getInstance().getScoreboardAPI().sendScoreboard(all);
@@ -91,6 +93,11 @@ public class GameManager {
 
                         if (Utils.PRE_COUNTDOWN_AFTER_KILL) {
                             launchPreCountdown();
+                        } else {
+                            Bukkit.broadcastMessage(Utils.PREFIX + LanguageManager.getMessage(Utils.LOCALE, "start").replaceAll("&", "§"));
+                            Bukkit.getOnlinePlayers().forEach(all -> {
+                                all.playSound(all.getLocation(), Sound.NOTE_PLING, 2, 2);
+                            });
                         }
 
                         Bukkit.getScheduler().cancelTask(lobbyScheduler);
@@ -163,6 +170,7 @@ public class GameManager {
                         Bukkit.broadcastMessage(Utils.PREFIX + LanguageManager.getMessage(Utils.LOCALE, "start").replaceAll("&", "§"));
                         Bukkit.getOnlinePlayers().forEach(all -> {
                             all.playSound(all.getLocation(), Sound.NOTE_PLING, 2, 2);
+                            all.setGameMode(GameMode.SURVIVAL);
                         });
                         Bukkit.getScheduler().cancelTask(preScheduler);
                         if (Utils.PRE_COUNTDOWN_AFTER_KILL) {
@@ -179,7 +187,7 @@ public class GameManager {
         Bukkit.getOnlinePlayers().forEach(Utils::setupInventory);
         Bukkit.broadcastMessage(Utils.PREFIX + LanguageManager.getMessage(Utils.LOCALE, "serverReboot").replaceAll("&", "§"));
         endingScheduler = Bukkit.getScheduler().scheduleSyncRepeatingTask(SyndicateGames.getInstance(), () -> {
-            if (Bukkit.getOnlinePlayers().size() > 1) {
+            if (Bukkit.getOnlinePlayers().size() >= 1) {
                 Utils.ENDING_COUNTDOWN--;
                 if (Utils.ENDING_COUNTDOWN == 0) {
                     Bukkit.getScheduler().cancelTask(endingScheduler);
@@ -197,6 +205,7 @@ public class GameManager {
                     Bukkit.shutdown();
                 } else {
                     Bukkit.reload();
+                    Bukkit.getScheduler().cancelTask(endingScheduler);
                 }
             }
         }, 20L, 20L);
