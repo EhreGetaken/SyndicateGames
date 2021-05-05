@@ -5,3 +5,4 @@ main: eu.imposdev.syndicategames.SyndicateGames
 
 commands:
   setup:
+    description: Setup SyndicateGames
