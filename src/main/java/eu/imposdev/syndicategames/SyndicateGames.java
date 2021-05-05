@@ -1,6 +1,7 @@
 package eu.imposdev.syndicategames;
 
 import eu.imposdev.syndicategames.api.LanguageManager;
+import eu.imposdev.syndicategames.api.Metrics;
 import eu.imposdev.syndicategames.chests.ChestAPI;
 import eu.imposdev.syndicategames.api.LocationAPI;
 import eu.imposdev.syndicategames.chests.ChestLoot;
@@ -41,6 +42,9 @@ public class SyndicateGames extends JavaPlugin {
         instance = this;
 
         version = this.getDescription().getVersion();
+
+        int pluginId = 11257;
+        Metrics metrics = new Metrics(this, pluginId);
 
         ArrayList<String> mapz = new ArrayList<>();
         mapz.add("Forrest");
